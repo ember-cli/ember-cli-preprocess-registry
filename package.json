@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/ember-cli/ember-cli-preprocessor-registry.git"
   },
-  "author": "",
+  "author": "ember-cli Contributors",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ember-cli/ember-cli-preprocessor-registry/issues"
