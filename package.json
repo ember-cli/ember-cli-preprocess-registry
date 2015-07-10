@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ember-cli/ember-cli-preprocessor-registry#readme",
   "dependencies": {
+    "broccoli-clean-css": "0.2.0",
     "broccoli-funnel": "^0.2.3",
     "broccoli-merge-trees": "^0.2.1",
     "debug": "^2.2.0",
