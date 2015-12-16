@@ -77,8 +77,6 @@ function addLegacyPreprocessors(registry) {
 
   registry.add('minify-css', 'broccoli-csso', null);
 
-  registry.add('js', 'broccoli-ember-script', 'em');
-
   registry.add('template', 'broccoli-emblem-compiler', ['embl', 'emblem']);
   registry.add('template', 'broccoli-ember-hbs-template-compiler', ['hbs', 'handlebars']);
 }
