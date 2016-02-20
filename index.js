@@ -31,7 +31,7 @@ Registry.prototype.extensionsForType = function(type) {
     return memo.concat(plugin.ext);
   }, [type]);
 
-  extensions = require('lodash/array/uniq')(extensions);
+  extensions = require('lodash/uniq')(extensions);
 
   debug('extensions for type %s: %s', type, extensions);
 
