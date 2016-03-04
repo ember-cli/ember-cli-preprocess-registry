@@ -1,7 +1,6 @@
 'use strict';
 
 var Plugin           = require('./lib/plugin');
-var StylePlugin      = require('./lib/style-plugin');
 var TemplatePlugin   = require('./lib/template-plugin');
 var JavascriptPlugin = require('./lib/javascript-plugin');
 var debug            = require('debug')('ember-cli:registry');
@@ -19,7 +18,6 @@ function Registry(plugins, app) {
   this.app = app;
   this.pluginTypes = {
     'js': JavascriptPlugin,
-    'css': StylePlugin,
     'template': TemplatePlugin
   };
 }

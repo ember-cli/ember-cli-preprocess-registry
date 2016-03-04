@@ -71,10 +71,6 @@ module.exports.defaultRegistry = function(app) {
   @param registry
 */
 function addLegacyPreprocessors(registry) {
-  registry.add('css', 'broccoli-stylus-single', 'styl');
-  registry.add('css', 'broccoli-ruby-sass', ['scss', 'sass']);
-  registry.add('css', 'broccoli-sass', ['scss', 'sass']);
-
   registry.add('minify-css', 'broccoli-csso', null);
 
   registry.add('template', 'broccoli-emblem-compiler', ['embl', 'emblem']);

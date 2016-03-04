@@ -14,31 +14,31 @@ describe('Plugin Loader', function() {
         'broccoli-emblem': 'latest'
       },
       devDependencies: {
-        'broccoli-sass': 'latest',
+        'fake-sass-1': 'latest',
         'broccoli-coffee': 'latest'
       }
     };
 
     app = { name: 'some-application-name' };
     registry = new PluginRegistry(assign(pkg.devDependencies, pkg.dependencies), app);
-    registry.add('css', 'broccoli-sass', ['scss', 'sass']);
-    registry.add('css', 'broccoli-ruby-sass', ['scss', 'sass']);
+    registry.add('css', 'fake-sass-1', ['scss', 'sass']);
+    registry.add('css', 'fake-sass-2', ['scss', 'sass']);
   });
 
   it('returns array of one plugin when only one', function() {
     var plugins = registry.load('css');
 
     expect(plugins.length).to.equal(1);
-    expect(plugins[0].name).to.equal('broccoli-sass');
+    expect(plugins[0].name).to.equal('fake-sass-1');
   });
 
   it('returns the correct list of plugins when there are more than one', function() {
-    registry.availablePlugins['broccoli-ruby-sass'] = 'latest';
+    registry.availablePlugins['fake-sass-2'] = 'latest';
     var plugins = registry.load('css');
 
     expect(plugins.length).to.equal(2);
-    expect(plugins[0].name).to.equal('broccoli-sass');
-    expect(plugins[1].name).to.equal('broccoli-ruby-sass');
+    expect(plugins[0].name).to.equal('fake-sass-1');
+    expect(plugins[1].name).to.equal('fake-sass-2');
   });
 
   it('returns plugin of the correct type', function() {
@@ -70,7 +70,7 @@ describe('Plugin Loader', function() {
   });
 
   it('can specify fallback extensions', function() {
-    registry.availablePlugins = { 'broccoli-ruby-sass': 'latest' };
+    registry.availablePlugins = { 'fake-sass-2': 'latest' };
     var plugins = registry.load('css');
     var plugin  = plugins[0];
 
@@ -134,12 +134,12 @@ describe('Plugin Loader', function() {
   });
 
   it('allows removal of a specified plugin', function() {
-    registry.availablePlugins['broccoli-ruby-sass'] = 'latest';
-    registry.remove('css', 'broccoli-sass');
+    registry.availablePlugins['fake-sass-2'] = 'latest';
+    registry.remove('css', 'fake-sass-1');
 
     var plugins = registry.load('css');
     expect(plugins.length).to.equal(1);
-    expect(plugins[0].name).to.equal('broccoli-ruby-sass');
+    expect(plugins[0].name).to.equal('fake-sass-2');
   });
 
   it('allows removal of plugin added as instantiated objects', function() {
