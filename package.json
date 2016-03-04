@@ -1,7 +1,7 @@
 {
   "name": "ember-cli-preprocess-registry",
   "version": "2.0.0",
-  "description": "",
+  "description": "Preprocessor registry used internally by ember-cli.",
   "main": "index.js",
   "scripts": {
     "test": "mocha tests/**/*"
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/ember-cli/ember-cli-preprocessor-registry.git"
   },
   "author": "ember-cli Contributors",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ember-cli/ember-cli-preprocessor-registry/issues"
   },
