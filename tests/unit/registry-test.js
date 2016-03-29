@@ -117,6 +117,13 @@ describe('Plugin Loader', function() {
 
       expect(extensions).to.deep.equal(['css', 'scss', 'sass', 'foo']);
     });
+
+    it('will removed non defined extensions from list', function() {
+      registry.add('css', 'broccoli-foo');
+      var extensions = registry.extensionsForType('css');
+
+      expect(extensions).to.deep.equal(['css', 'scss', 'sass']);
+    });
   });
 
   describe('adds a plugin directly if it is provided', function() {

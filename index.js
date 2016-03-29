@@ -28,7 +28,7 @@ Registry.prototype.extensionsForType = function(type) {
   var registered = this.registeredForType(type);
 
   var extensions =  registered.reduce(function(memo, plugin) {
-    return memo.concat(plugin.ext);
+    return plugin.ext ? memo.concat(plugin.ext) : memo;
   }, [type]);
 
   extensions = require('lodash/uniq')(extensions);
