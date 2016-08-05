@@ -22,7 +22,9 @@
     "broccoli-merge-trees": "^1.0.0",
     "debug": "^2.2.0",
     "exists-sync": "0.0.3",
-    "lodash": "^4.5.0",
+    "lodash.assign": "^4.1.0",
+    "lodash.find": "^4.5.1",
+    "lodash.uniq": "^4.4.0",
     "process-relative-require": "^1.0.0",
     "silent-error": "^1.0.0"
   },
