@@ -1,6 +1,6 @@
 'use strict';
 
-var assign         = require('lodash/assign');
+var assign         = require('ember-cli-lodash-subset').assign;
 var expect         = require('chai').expect;
 var PluginRegistry = require('../../');
 
