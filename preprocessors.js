@@ -92,7 +92,7 @@ function addLegacyPreprocessors(registry) {
   @method isType
   @param {String} file the path to check
   @param {String} type the type to compare with
-  @param {registryOwner} registryOwner the object whose registry we should search
+  @param {Object} registryOwner the object whose registry we should search
 */
 module.exports.isType = function(file, type, registryOwner) {
   var extension = path.extname(file).replace('.', '');
