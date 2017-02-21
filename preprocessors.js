@@ -108,15 +108,16 @@ module.exports.preprocessMinifyCss = function(tree, options) {
   var plugins = options.registry.load('minify-css');
 
   if (plugins.length === 0) {
-    var compiler = require('broccoli-clean-css');
-    return compiler(tree, options);
+    var CleanCSS = require('broccoli-clean-css');
+    return new CleanCSS(tree, options);
   } else if (plugins.length > 1) {
     throw new Error('You cannot use more than one minify-css plugin at once.');
   }
 
   var plugin = plugins[0];
+  var Preprocessor = relativeRequire(plugin.name);
 
-  return relativeRequire(plugin.name).call(null, tree, options);
+  return new Preprocessor(tree, options);
 };
 
 module.exports.preprocessCss = function(tree, inputPath, outputPath, options) {
