@@ -44,8 +44,6 @@ module.exports.setupRegistry = function(appOrAddon) {
     appOrAddon.setupPreprocessorRegistry('self', registry);
   }
   setupRegistryForEachAddon(registry, appOrAddon);
-
-  addLegacyPreprocessors(registry);
 };
 
 /**
@@ -61,21 +59,6 @@ module.exports.defaultRegistry = function(app) {
 
   return registry;
 };
-
-/**
-  Add old / grandfathered preprocessor that is not an ember-cli addon.
-
-  These entries should be removed, once they have good addon replacements.
-  @private
-  @method addLegacyPreprocessors
-  @param registry
-*/
-function addLegacyPreprocessors(registry) {
-  registry.add('minify-css', 'broccoli-csso', null);
-
-  registry.add('template', 'broccoli-emblem-compiler', ['embl', 'emblem']);
-  registry.add('template', 'broccoli-ember-hbs-template-compiler', ['hbs', 'handlebars']);
-}
 
 /**
   Returns true if the given path would be considered of a specific type.
