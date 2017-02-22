@@ -8,7 +8,7 @@ describe('defaultRegistry', function() {
   let fakeApp;
   beforeEach(function() {
     fakeApp = {
-      dependencies: function() { }
+      dependencies() { },
     };
   });
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const expect = require('chai').expect;
-const p      = require('../../../preprocessors');
+const p = require('../../../preprocessors');
 
 describe('setupRegistry', function() {
   let setupPreprocessorRegistryCalled, fakeAddon;
@@ -11,14 +11,14 @@ describe('setupRegistry', function() {
 
     fakeAddon = {
       registry: {
-        add: function() { }
+        add() { },
       },
       addons: [],
-      initializeAddons: function() { },
+      initializeAddons() { },
 
-      setupPreprocessorRegistry: function(type, registry) {
+      setupPreprocessorRegistry(type, registry) {
         setupPreprocessorRegistryCalled.push([type, registry]);
-      }
+      },
     };
   });
 
@@ -53,7 +53,7 @@ describe('setupRegistry', function() {
       fakeAddon.addons = [
         { setupPreprocessorRegistry: setupPreprocessorRegistryShared },
         { setupPreprocessorRegistry: setupPreprocessorRegistryShared },
-        { setupPreprocessorRegistry: setupPreprocessorRegistryShared }
+        { setupPreprocessorRegistry: setupPreprocessorRegistryShared },
       ];
 
       p.setupRegistry(fakeAddon);
@@ -71,7 +71,7 @@ describe('setupRegistry', function() {
       fakeAddon.addons = [
         { setupPreprocessorRegistry: setupPreprocessorRegistryShared },
         { },
-        { }
+        { },
       ];
 
       p.setupRegistry(fakeAddon);

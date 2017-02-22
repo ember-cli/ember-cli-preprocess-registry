@@ -21,7 +21,7 @@ function setupRegistryForEachAddon(registry, parent) {
     return;
   }
 
-  addons.forEach(function(addon) {
+  addons.forEach(addon => {
     if (addon.setupPreprocessorRegistry) {
       addon.setupPreprocessorRegistry('parent', registry);
     }
@@ -105,7 +105,7 @@ module.exports.preprocessCss = function(tree, inputPath, outputPath, options) {
     return new Funnel(tree, {
       srcDir: inputPath,
 
-      getDestinationPath: function(relativePath) {
+      getDestinationPath(relativePath) {
         if (options.outputPaths) {
           // options.outputPaths is not present when compiling
           // an addon's styles
@@ -117,8 +117,8 @@ module.exports.preprocessCss = function(tree, inputPath, outputPath, options) {
           }
         }
 
-        return outputPath + '/' + relativePath;
-      }
+        return `${outputPath}/${relativePath}`;
+      },
     });
   }
 
@@ -129,7 +129,7 @@ module.exports.preprocessTemplates = function(/* tree */) {
   let options = arguments[arguments.length - 1];
   let plugins = options.registry.load('template');
 
-  debug('plugins found for templates: %s', plugins.map(function(p) { return p.name; }));
+  debug('plugins found for templates: %s', plugins.map(p => p.name));
 
   if (plugins.length === 0) {
     throw new Error('Missing template processor');
@@ -141,7 +141,7 @@ module.exports.preprocessTemplates = function(/* tree */) {
 module.exports.preprocessJs = function(/* tree, inputPath, outputPath, options */) {
   let options = arguments[arguments.length - 1];
   let plugins = options.registry.load('js');
-  let tree    = arguments[0];
+  let tree = arguments[0];
 
   if (plugins.length === 0) { return tree; }
 
@@ -152,7 +152,7 @@ function processPlugins(plugins, args) {
   args = Array.prototype.slice.call(args);
   let tree = args.shift();
 
-  plugins.forEach(function(plugin) {
+  plugins.forEach(plugin => {
     debug('processing %s', plugin.name);
     tree = plugin.toTree.apply(plugin, [tree].concat(args));
   });

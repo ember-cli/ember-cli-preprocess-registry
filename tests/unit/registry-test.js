@@ -1,7 +1,7 @@
 'use strict';
 
-const assign         = require('ember-cli-lodash-subset').assign;
-const expect         = require('chai').expect;
+const assign = require('ember-cli-lodash-subset').assign;
+const expect = require('chai').expect;
 const PluginRegistry = require('../../');
 
 let pkg, registry, app;
@@ -11,12 +11,12 @@ describe('Plugin Loader', function() {
   beforeEach(function() {
     pkg = {
       dependencies: {
-        'broccoli-emblem': 'latest'
+        'broccoli-emblem': 'latest',
       },
       devDependencies: {
         'fake-sass-1': 'latest',
-        'broccoli-coffee': 'latest'
-      }
+        'broccoli-coffee': 'latest',
+      },
     };
 
     app = { name: 'some-application-name' };
@@ -72,7 +72,7 @@ describe('Plugin Loader', function() {
   it('can specify fallback extensions', function() {
     registry.availablePlugins = { 'fake-sass-2': 'latest' };
     let plugins = registry.load('css');
-    let plugin  = plugins[0];
+    let plugin = plugins[0];
 
     expect(plugin.ext[0]).to.equal('scss');
     expect(plugin.ext[1]).to.equal('sass');
@@ -86,7 +86,7 @@ describe('Plugin Loader', function() {
   });
 
   it('adds a plugin directly if it is provided', function() {
-    let randomPlugin = {name: 'Awesome!'};
+    let randomPlugin = { name: 'Awesome!' };
 
     registry.add('js', randomPlugin);
     let registered = registry.registry['js'];
@@ -95,7 +95,7 @@ describe('Plugin Loader', function() {
   });
 
   it('returns plugins added manually even if not present in package deps', function() {
-    let randomPlugin = {name: 'Awesome!'};
+    let randomPlugin = { name: 'Awesome!' };
 
     registry.add('foo', randomPlugin);
     let plugins = registry.load('foo');
@@ -132,7 +132,7 @@ describe('Plugin Loader', function() {
     });
 
     it('returns the current array if type is found', function() {
-      let fooArray = [ 'something', 'else' ];
+      let fooArray = ['something', 'else'];
 
       registry.registry['foo'] = fooArray;
 
@@ -152,7 +152,7 @@ describe('Plugin Loader', function() {
   it('allows removal of plugin added as instantiated objects', function() {
     let randomPlugin, plugins;
 
-    randomPlugin = {name: 'Awesome!'};
+    randomPlugin = { name: 'Awesome!' };
     registry.add('foo', randomPlugin);
 
     plugins = registry.load('foo');

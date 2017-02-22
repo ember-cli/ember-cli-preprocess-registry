@@ -1,6 +1,6 @@
 'use strict';
 
-let expect       = require('chai').expect;
+let expect = require('chai').expect;
 let preprocessJs = require('../../../preprocessors').preprocessJs;
 
 let registry, plugins;
@@ -8,16 +8,16 @@ let registry, plugins;
 describe('preprocessJs', function() {
   function generatePlugin(name, toTree) {
     return {
-      name: name,
-      toTree: toTree
+      name,
+      toTree,
     };
   }
 
   beforeEach(function() {
     registry = {
-      load: function() {
+      load() {
         return plugins;
-      }
+      },
     };
   });
 
@@ -29,11 +29,11 @@ describe('preprocessJs', function() {
 
     plugins = [
       generatePlugin('foo', toTree),
-      generatePlugin('bar', toTree)
+      generatePlugin('bar', toTree),
     ];
 
     preprocessJs('app', '/', 'foo.js', {
-      registry: registry
+      registry,
     });
 
     expect(pluginsCalled).to.deep.equal(['foo', 'bar']);
@@ -49,11 +49,11 @@ describe('preprocessJs', function() {
 
     plugins = [
       generatePlugin('foo', toTree),
-      generatePlugin('bar', toTree)
+      generatePlugin('bar', toTree),
     ];
 
     let output = preprocessJs('app', '/', 'foo.js', {
-      registry: registry
+      registry,
     });
 
     expect(treeValues).to.deep.equal(['app', 'foo']);

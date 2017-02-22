@@ -1,16 +1,16 @@
 'use strict';
 
-const Plugin           = require('./lib/plugin');
-const TemplatePlugin   = require('./lib/template-plugin');
+const Plugin = require('./lib/plugin');
+const TemplatePlugin = require('./lib/template-plugin');
 const JavascriptPlugin = require('./lib/javascript-plugin');
-const debug            = require('debug')('ember-cli:registry');
+const debug = require('debug')('ember-cli:registry');
 
 function Registry(plugins, app) {
   this.registry = {
     js: [],
     css: [],
     'minify-css': [],
-    template: []
+    template: [],
   };
 
   this.instantiatedPlugins = [];
@@ -18,7 +18,7 @@ function Registry(plugins, app) {
   this.app = app;
   this.pluginTypes = {
     'js': JavascriptPlugin,
-    'template': TemplatePlugin
+    'template': TemplatePlugin,
   };
 }
 
@@ -27,9 +27,7 @@ module.exports = Registry;
 Registry.prototype.extensionsForType = function(type) {
   let registered = this.registeredForType(type);
 
-  let extensions =  registered.reduce(function(memo, plugin) {
-    return memo.concat(plugin.ext);
-  }, [type]).filter(Boolean);
+  let extensions = registered.reduce((memo, plugin) => memo.concat(plugin.ext), [type]).filter(Boolean);
 
   extensions = require('ember-cli-lodash-subset').uniq(extensions);
 
@@ -40,14 +38,14 @@ Registry.prototype.extensionsForType = function(type) {
 
 Registry.prototype.load = function(type) {
   let knownPlugins = this.registeredForType(type);
-  let plugins = knownPlugins.map(function(plugin) {
-    if(this.instantiatedPlugins.indexOf(plugin) > -1 || this.availablePlugins.hasOwnProperty(plugin.name)) {
+  let plugins = knownPlugins.map(plugin => {
+    if (this.instantiatedPlugins.indexOf(plugin) > -1 || this.availablePlugins.hasOwnProperty(plugin.name)) {
       return plugin;
     }
-  }.bind(this))
+  })
   .filter(Boolean);
 
-  debug('loading %s: available plugins %s; found plugins %s;', type, knownPlugins.map(function(p) { return p.name; }), plugins.map(function(p) { return p.name; }));
+  debug('loading %s: available plugins %s; found plugins %s;', type, knownPlugins.map(p => p.name), plugins.map(p => p.name));
 
   return plugins;
 };
