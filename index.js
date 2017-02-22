@@ -1,26 +1,11 @@
 'use strict';
 
-const Plugin = require('./lib/plugin');
-const TemplatePlugin = require('./lib/template-plugin');
-const JavascriptPlugin = require('./lib/javascript-plugin');
 const debug = require('debug')('ember-cli:registry');
 
 class Registry {
-  constructor(plugins, app) {
-    this.registry = {
-      js: [],
-      css: [],
-      'minify-css': [],
-      template: [],
-    };
-
-    this.instantiatedPlugins = [];
-    this.availablePlugins = plugins;
+  constructor(app) {
+    this.registry = { };
     this.app = app;
-    this.pluginTypes = {
-      'js': JavascriptPlugin,
-      'template': TemplatePlugin,
-    };
   }
 
   extensionsForType(type) {
@@ -36,15 +21,9 @@ class Registry {
   }
 
   load(type) {
-    let knownPlugins = this.registeredForType(type);
-    let plugins = knownPlugins.map(plugin => {
-      if (this.instantiatedPlugins.indexOf(plugin) > -1 || this.availablePlugins.hasOwnProperty(plugin.name)) {
-        return plugin;
-      }
-    })
-        .filter(Boolean);
+    let plugins = this.registeredForType(type);
 
-    debug('loading %s: available plugins %s; found plugins %s;', type, knownPlugins.map(p => p.name), plugins.map(p => p.name));
+    debug('loading %s: available plugins %s;', type, plugins.map(p => p.name));
 
     return plugins;
   }
@@ -53,54 +32,23 @@ class Registry {
     return this.registry[type] = this.registry[type] || [];
   }
 
-  add(type, name, extension, options) {
+  add(type, plugin) {
     let registered = this.registeredForType(type);
-    let plugin, PluginType;
 
-    // plugin is being added directly do not instantiate it
-    if (typeof name === 'object') {
-      plugin = name;
-      this.instantiatedPlugins.push(plugin);
-    } else {
-      PluginType = this.pluginTypes[type] || Plugin;
-      options = options || {};
-      options.applicationName = this.app.name;
-      options.app = this.app;
-
-      plugin = new PluginType(name, extension, options);
-    }
-
-    debug('add type: %s, name: %s, extension:%s, options:%s', type, plugin.name, plugin.ext, options);
+    debug('add type: %s, name: %s, extension:%s', type, plugin.name, plugin.ext);
 
     registered.push(plugin);
   }
 
-  remove(type /* name */) {
+  remove(type, plugin) {
     let registered = this.registeredForType(type);
-    let registeredIndex, name;
-
-    if (typeof arguments[1] === 'object') {
-      name = arguments[1].name;
-    } else {
-      name = arguments[1];
-    }
+    let name = plugin.name;
 
     debug('remove type: %s, name: %s', type, name);
 
-    for (let i = 0, l = registered.length; i < l; i++) {
-      if (registered[i].name === name) {
-        registeredIndex = i;
-      }
-    }
+    let registeredIndex = registered.indexOf(plugin);
 
-    let plugin = registered[registeredIndex];
-    let instantiatedPluginIndex = this.instantiatedPlugins.indexOf(plugin);
-
-    if (instantiatedPluginIndex > -1) {
-      this.instantiatedPlugins.splice(instantiatedPluginIndex, 1);
-    }
-
-    if (registeredIndex !== undefined && registeredIndex > -1) {
+    if (registeredIndex > -1) {
       registered.splice(registeredIndex, 1);
     }
   }

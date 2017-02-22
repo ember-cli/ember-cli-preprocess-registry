@@ -1,7 +1,7 @@
 'use strict';
 
-let expect = require('chai').expect;
-let preprocessJs = require('../../../preprocessors').preprocessJs;
+const expect = require('chai').expect;
+const preprocessJs = require('../../../preprocessors').preprocessJs;
 
 let registry, plugins;
 
