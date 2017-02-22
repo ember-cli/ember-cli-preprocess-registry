@@ -1,10 +1,10 @@
 'use strict';
 
-var expect = require('chai').expect;
-var p      = require('../../../preprocessors');
+const expect = require('chai').expect;
+const p      = require('../../../preprocessors');
 
 describe('setupRegistry', function() {
-  var setupPreprocessorRegistryCalled, fakeAddon;
+  let setupPreprocessorRegistryCalled, fakeAddon;
 
   beforeEach(function() {
     setupPreprocessorRegistryCalled = [];
@@ -39,7 +39,7 @@ describe('setupRegistry', function() {
   });
 
   describe('with nested addons', function() {
-    var nestedSetupPreprocessorRegistryCalls;
+    let nestedSetupPreprocessorRegistryCalls;
 
     function setupPreprocessorRegistryShared(type, registry) {
       nestedSetupPreprocessorRegistryCalls.push([type, registry]);

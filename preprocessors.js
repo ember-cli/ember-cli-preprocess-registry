@@ -1,8 +1,8 @@
 'use strict';
 
-var path = require('path');
-var Registry = require('./');
-var debug = require('debug')('ember-cli:preprocessors');
+const path = require('path');
+const Registry = require('./');
+const debug = require('debug')('ember-cli:preprocessors');
 
 /**
   Invokes the `setupRegistryForEachAddon('parent', registry)` hook for each of the parent objects addons.
@@ -15,7 +15,7 @@ var debug = require('debug')('ember-cli:preprocessors');
 */
 function setupRegistryForEachAddon(registry, parent) {
   parent.initializeAddons();
-  var addons = parent.addons || (parent.project && parent.project.addons);
+  let addons = parent.addons || (parent.project && parent.project.addons);
 
   if (!addons) {
     return;
@@ -38,7 +38,7 @@ function setupRegistryForEachAddon(registry, parent) {
   @param {Addon|EmberApp}
 */
 module.exports.setupRegistry = function(appOrAddon) {
-  var registry = appOrAddon.registry;
+  let registry = appOrAddon.registry;
   if (appOrAddon.setupPreprocessorRegistry) {
     appOrAddon.setupPreprocessorRegistry('self', registry);
   }
@@ -54,7 +54,7 @@ module.exports.setupRegistry = function(appOrAddon) {
   @param app
 */
 module.exports.defaultRegistry = function(app) {
-  var registry = new Registry(app.dependencies(), app);
+  let registry = new Registry(app.dependencies(), app);
 
   return registry;
 };
@@ -77,7 +77,7 @@ module.exports.defaultRegistry = function(app) {
   @param {Object} registryOwner the object whose registry we should search
 */
 module.exports.isType = function(file, type, registryOwner) {
-  var extension = path.extname(file).replace('.', '');
+  let extension = path.extname(file).replace('.', '');
 
   if (extension === type) { return true; }
 
@@ -87,7 +87,7 @@ module.exports.isType = function(file, type, registryOwner) {
 };
 
 module.exports.preprocessMinifyCss = function(tree, options) {
-  var plugins = options.registry.load('minify-css');
+  let plugins = options.registry.load('minify-css');
 
   if (plugins.length > 1) {
     throw new Error('You cannot use more than one minify-css plugin at once.');
@@ -97,10 +97,10 @@ module.exports.preprocessMinifyCss = function(tree, options) {
 };
 
 module.exports.preprocessCss = function(tree, inputPath, outputPath, options) {
-  var plugins = options.registry.load('css');
+  let plugins = options.registry.load('css');
 
   if (plugins.length === 0) {
-    var Funnel = require('broccoli-funnel');
+    const Funnel = require('broccoli-funnel');
 
     return new Funnel(tree, {
       srcDir: inputPath,
@@ -109,7 +109,7 @@ module.exports.preprocessCss = function(tree, inputPath, outputPath, options) {
         if (options.outputPaths) {
           // options.outputPaths is not present when compiling
           // an addon's styles
-          var path = relativePath.replace(/\.css$/, '');
+          let path = relativePath.replace(/\.css$/, '');
 
           // is a rename rule present?
           if (options.outputPaths[path]) {
@@ -126,8 +126,8 @@ module.exports.preprocessCss = function(tree, inputPath, outputPath, options) {
 };
 
 module.exports.preprocessTemplates = function(/* tree */) {
-  var options = arguments[arguments.length - 1];
-  var plugins = options.registry.load('template');
+  let options = arguments[arguments.length - 1];
+  let plugins = options.registry.load('template');
 
   debug('plugins found for templates: %s', plugins.map(function(p) { return p.name; }));
 
@@ -139,9 +139,9 @@ module.exports.preprocessTemplates = function(/* tree */) {
 };
 
 module.exports.preprocessJs = function(/* tree, inputPath, outputPath, options */) {
-  var options = arguments[arguments.length - 1];
-  var plugins = options.registry.load('js');
-  var tree    = arguments[0];
+  let options = arguments[arguments.length - 1];
+  let plugins = options.registry.load('js');
+  let tree    = arguments[0];
 
   if (plugins.length === 0) { return tree; }
 
@@ -150,7 +150,7 @@ module.exports.preprocessJs = function(/* tree, inputPath, outputPath, options *
 
 function processPlugins(plugins, args) {
   args = Array.prototype.slice.call(args);
-  var tree = args.shift();
+  let tree = args.shift();
 
   plugins.forEach(function(plugin) {
     debug('processing %s', plugin.name);

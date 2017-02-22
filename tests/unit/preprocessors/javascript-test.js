@@ -1,9 +1,9 @@
 'use strict';
 
-var expect       = require('chai').expect;
-var preprocessJs = require('../../../preprocessors').preprocessJs;
+let expect       = require('chai').expect;
+let preprocessJs = require('../../../preprocessors').preprocessJs;
 
-var registry, plugins;
+let registry, plugins;
 
 describe('preprocessJs', function() {
   function generatePlugin(name, toTree) {
@@ -22,8 +22,8 @@ describe('preprocessJs', function() {
   });
 
   it('calls can call multiple plugins', function() {
-    var pluginsCalled = [];
-    var toTree = function() {
+    let pluginsCalled = [];
+    let toTree = function() {
       pluginsCalled.push(this.name);
     };
 
@@ -40,8 +40,8 @@ describe('preprocessJs', function() {
   });
 
   it('passes the previously returned value into the next plugin', function() {
-    var treeValues = [];
-    var toTree = function(tree) {
+    let treeValues = [];
+    let toTree = function(tree) {
       treeValues.push(tree);
 
       return this.name;
@@ -52,7 +52,7 @@ describe('preprocessJs', function() {
       generatePlugin('bar', toTree)
     ];
 
-    var output = preprocessJs('app', '/', 'foo.js', {
+    let output = preprocessJs('app', '/', 'foo.js', {
       registry: registry
     });
 

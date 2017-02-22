@@ -1,9 +1,9 @@
 'use strict';
 
-var Plugin           = require('./lib/plugin');
-var TemplatePlugin   = require('./lib/template-plugin');
-var JavascriptPlugin = require('./lib/javascript-plugin');
-var debug            = require('debug')('ember-cli:registry');
+const Plugin           = require('./lib/plugin');
+const TemplatePlugin   = require('./lib/template-plugin');
+const JavascriptPlugin = require('./lib/javascript-plugin');
+const debug            = require('debug')('ember-cli:registry');
 
 function Registry(plugins, app) {
   this.registry = {
@@ -25,9 +25,9 @@ function Registry(plugins, app) {
 module.exports = Registry;
 
 Registry.prototype.extensionsForType = function(type) {
-  var registered = this.registeredForType(type);
+  let registered = this.registeredForType(type);
 
-  var extensions =  registered.reduce(function(memo, plugin) {
+  let extensions =  registered.reduce(function(memo, plugin) {
     return memo.concat(plugin.ext);
   }, [type]).filter(Boolean);
 
@@ -39,8 +39,8 @@ Registry.prototype.extensionsForType = function(type) {
 };
 
 Registry.prototype.load = function(type) {
-  var knownPlugins = this.registeredForType(type);
-  var plugins = knownPlugins.map(function(plugin) {
+  let knownPlugins = this.registeredForType(type);
+  let plugins = knownPlugins.map(function(plugin) {
     if(this.instantiatedPlugins.indexOf(plugin) > -1 || this.availablePlugins.hasOwnProperty(plugin.name)) {
       return plugin;
     }
@@ -57,8 +57,8 @@ Registry.prototype.registeredForType = function(type) {
 };
 
 Registry.prototype.add = function(type, name, extension, options) {
-  var registered = this.registeredForType(type);
-  var plugin, PluginType;
+  let registered = this.registeredForType(type);
+  let plugin, PluginType;
 
   // plugin is being added directly do not instantiate it
   if (typeof name === 'object') {
@@ -79,8 +79,8 @@ Registry.prototype.add = function(type, name, extension, options) {
 };
 
 Registry.prototype.remove = function(type /* name */) {
-  var registered = this.registeredForType(type);
-  var registeredIndex, name;
+  let registered = this.registeredForType(type);
+  let registeredIndex, name;
 
   if (typeof arguments[1] === 'object') {
     name = arguments[1].name;
@@ -90,14 +90,14 @@ Registry.prototype.remove = function(type /* name */) {
 
   debug('remove type: %s, name: %s', type, name);
 
-  for (var i = 0, l = registered.length; i < l; i++) {
+  for (let i = 0, l = registered.length; i < l; i++) {
     if (registered[i].name === name) {
       registeredIndex = i;
     }
   }
 
-  var plugin = registered[registeredIndex];
-  var instantiatedPluginIndex = this.instantiatedPlugins.indexOf(plugin);
+  let plugin = registered[registeredIndex];
+  let instantiatedPluginIndex = this.instantiatedPlugins.indexOf(plugin);
 
   if (instantiatedPluginIndex > -1) {
     this.instantiatedPlugins.splice(instantiatedPluginIndex, 1);

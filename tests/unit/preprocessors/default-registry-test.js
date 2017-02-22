@@ -1,11 +1,11 @@
 'use strict';
 
-var expect = require('chai').expect;
-var p = require('../../../preprocessors');
-var Registry = require('../../../');
+const expect = require('chai').expect;
+const p = require('../../../preprocessors');
+const Registry = require('../../../');
 
 describe('defaultRegistry', function() {
-  var fakeApp;
+  let fakeApp;
   beforeEach(function() {
     fakeApp = {
       dependencies: function() { }
@@ -13,7 +13,7 @@ describe('defaultRegistry', function() {
   });
 
   it('creates a new Registry instance', function() {
-    var registry = p.defaultRegistry(fakeApp);
+    let registry = p.defaultRegistry(fakeApp);
 
     expect(registry).to.an.instanceof(Registry);
   });
