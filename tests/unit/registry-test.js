@@ -1,40 +1,34 @@
 'use strict';
 
-var assign         = require('ember-cli-lodash-subset').assign;
-var expect         = require('chai').expect;
-var PluginRegistry = require('../../');
+const expect = require('chai').expect;
+const PluginRegistry = require('../../');
 
-var pkg, registry, app;
+let pkg, registry, app;
 
 describe('Plugin Loader', function() {
+  let fakeSass1, fakeSass2;
 
   beforeEach(function() {
-    pkg = {
-      dependencies: {
-        'broccoli-emblem': 'latest'
-      },
-      devDependencies: {
-        'fake-sass-1': 'latest',
-        'broccoli-coffee': 'latest'
-      }
-    };
-
     app = { name: 'some-application-name' };
-    registry = new PluginRegistry(assign(pkg.devDependencies, pkg.dependencies), app);
-    registry.add('css', 'fake-sass-1', ['scss', 'sass']);
-    registry.add('css', 'fake-sass-2', ['scss', 'sass']);
+
+    fakeSass1 = { name: 'fake-sass-1', ext: ['scss', 'sass'] };
+    fakeSass2 = { name: 'fake-sass-2', ext: ['scss', 'sass'] };
+
+    registry = new PluginRegistry(app);
+    registry.add('css', fakeSass1);
+    registry.add('css', fakeSass2);
+    registry.add('other-type', { name: 'other-thing-1', ext: 'oth' });
   });
 
   it('returns array of one plugin when only one', function() {
-    var plugins = registry.load('css');
+    let plugins = registry.load('other-type');
 
     expect(plugins.length).to.equal(1);
-    expect(plugins[0].name).to.equal('fake-sass-1');
+    expect(plugins[0].name).to.equal('other-thing-1');
   });
 
   it('returns the correct list of plugins when there are more than one', function() {
-    registry.availablePlugins['fake-sass-2'] = 'latest';
-    var plugins = registry.load('css');
+    let plugins = registry.load('css');
 
     expect(plugins.length).to.equal(2);
     expect(plugins[0].name).to.equal('fake-sass-1');
@@ -42,85 +36,54 @@ describe('Plugin Loader', function() {
   });
 
   it('returns plugin of the correct type', function() {
-    registry.add('js', 'broccoli-coffee');
-    var plugins = registry.load('js');
+    let coffeePlugin = { name: 'broccoli-coffee', ext: ['coffee', 'cs'] };
+    registry.add('js', coffeePlugin);
+    let plugins = registry.load('js');
 
     expect(plugins.length).to.equal(1);
-    expect(plugins[0].name).to.equal('broccoli-coffee');
-  });
-
-  it('returns plugin that was in dependencies', function() {
-    registry.add('template', 'broccoli-emblem');
-    var plugins = registry.load('template');
-    expect(plugins[0].name).to.equal('broccoli-emblem');
+    expect(plugins[0]).to.equal(coffeePlugin);
   });
 
   it('returns null when no plugin available for type', function() {
-    registry.add('blah', 'not-available');
-    var plugins = registry.load('blah');
+    let plugins = registry.load('blah');
     expect(plugins.length).to.equal(0);
   });
 
-  it('returns the configured extension for the plugin', function() {
-    registry.add('css', 'broccoli-less-single', 'less');
-    registry.availablePlugins = { 'broccoli-less-single': 'latest' };
-    var plugins = registry.load('css');
-
-    expect(plugins[0].ext).to.equal('less');
-  });
-
-  it('can specify fallback extensions', function() {
-    registry.availablePlugins = { 'fake-sass-2': 'latest' };
-    var plugins = registry.load('css');
-    var plugin  = plugins[0];
+  it('can specify multiple extensions', function() {
+    let plugins = registry.load('css');
+    let plugin = plugins[0];
 
     expect(plugin.ext[0]).to.equal('scss');
     expect(plugin.ext[1]).to.equal('sass');
   });
 
-  it('provides the application name to each plugin', function() {
-    registry.add('js', 'broccoli-coffee');
-    var plugins = registry.load('js');
-
-    expect(plugins[0].applicationName).to.equal('some-application-name');
-  });
-
-  it('adds a plugin directly if it is provided', function() {
-    var randomPlugin = {name: 'Awesome!'};
+  it('adds a plugin', function() {
+    let randomPlugin = { name: 'Awesome!' };
 
     registry.add('js', randomPlugin);
-    var registered = registry.registry['js'];
+    let registered = registry.load('js');
 
     expect(registered[0]).to.equal(randomPlugin);
-  });
-
-  it('returns plugins added manually even if not present in package deps', function() {
-    var randomPlugin = {name: 'Awesome!'};
-
-    registry.add('foo', randomPlugin);
-    var plugins = registry.load('foo');
-
-    expect(plugins[0]).to.equal(randomPlugin);
   });
 
   describe('extensionsForType', function() {
     it('includes all extensions for the given type', function() {
 
-      var extensions = registry.extensionsForType('css');
+      let extensions = registry.extensionsForType('css');
 
       expect(extensions).to.deep.equal(['css', 'scss', 'sass']);
     });
 
     it('can handle mixed array and non-array extensions', function() {
-      registry.add('css', 'broccoli-foo', 'foo');
-      var extensions = registry.extensionsForType('css');
+      registry.add('css', { name: 'broccoli-foo', ext: 'foo' });
+      let extensions = registry.extensionsForType('css');
 
       expect(extensions).to.deep.equal(['css', 'scss', 'sass', 'foo']);
     });
 
     it('will removed non defined extensions from list', function() {
       registry.add('css', 'broccoli-foo');
-      var extensions = registry.extensionsForType('css');
+      let extensions = registry.extensionsForType('css');
 
       expect(extensions).to.deep.equal(['css', 'scss', 'sass']);
     });
@@ -132,7 +95,7 @@ describe('Plugin Loader', function() {
     });
 
     it('returns the current array if type is found', function() {
-      var fooArray = [ 'something', 'else' ];
+      let fooArray = ['something', 'else'];
 
       registry.registry['foo'] = fooArray;
 
@@ -141,18 +104,17 @@ describe('Plugin Loader', function() {
   });
 
   it('allows removal of a specified plugin', function() {
-    registry.availablePlugins['fake-sass-2'] = 'latest';
-    registry.remove('css', 'fake-sass-1');
+    registry.remove('css', fakeSass1);
 
-    var plugins = registry.load('css');
+    let plugins = registry.load('css');
     expect(plugins.length).to.equal(1);
-    expect(plugins[0].name).to.equal('fake-sass-2');
+    expect(plugins[0]).to.equal(fakeSass2);
   });
 
   it('allows removal of plugin added as instantiated objects', function() {
-    var randomPlugin, plugins;
+    let randomPlugin, plugins;
 
-    randomPlugin = {name: 'Awesome!'};
+    randomPlugin = { name: 'Awesome!' };
     registry.add('foo', randomPlugin);
 
     plugins = registry.load('foo');
@@ -165,30 +127,26 @@ describe('Plugin Loader', function() {
   });
 
   it('an unfound item does not affect the registered list', function() {
-    var plugins;
+    let plugins;
 
-    function pluginNames(plugins) {
-      return plugins.map(function(p) { return p.name; });
-    }
+    let blah = { name: 'blah-zorz', ext: 'zorz' };
+    let blammo = { name: 'blammo', ext: 'blam' };
 
-    registry.availablePlugins['blah-zorz'] = 'latest';
-    registry.availablePlugins['blammo'] = 'latest';
-
-    registry.add('foo', 'blah-zorz', 'zorz');
-    registry.add('foo', 'blammo', 'blam');
+    registry.add('foo', blah);
+    registry.add('foo', blammo);
 
     plugins = registry.load('foo');
 
-    expect(pluginNames(plugins)).to.eql(['blah-zorz', 'blammo']); // precondition
+    expect(plugins).to.deep.eql([blah, blammo]); // precondition
 
-    registry.remove('foo', 'nothing I know');
+    registry.remove('foo', { name: 'whatever' });
     plugins = registry.load('foo');
 
-    expect(pluginNames(plugins)).to.eql(['blah-zorz', 'blammo']);
+    expect(plugins).to.deep.eql([blah, blammo]);
 
-    registry.remove('foo', 'blah-zorz');
+    registry.remove('foo', blah);
     plugins = registry.load('foo');
 
-    expect(pluginNames(plugins)).to.eql(['blammo']);
+    expect(plugins).to.eql([blammo]);
   });
 });

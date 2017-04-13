@@ -1,24 +1,24 @@
 'use strict';
 
-var expect = require('chai').expect;
-var p      = require('../../../preprocessors');
+const expect = require('chai').expect;
+const p = require('../../../preprocessors');
 
 describe('setupRegistry', function() {
-  var setupPreprocessorRegistryCalled, fakeAddon;
+  let setupPreprocessorRegistryCalled, fakeAddon;
 
   beforeEach(function() {
     setupPreprocessorRegistryCalled = [];
 
     fakeAddon = {
       registry: {
-        add: function() { }
+        add() { },
       },
       addons: [],
-      initializeAddons: function() { },
+      initializeAddons() { },
 
-      setupPreprocessorRegistry: function(type, registry) {
+      setupPreprocessorRegistry(type, registry) {
         setupPreprocessorRegistryCalled.push([type, registry]);
-      }
+      },
     };
   });
 
@@ -39,7 +39,7 @@ describe('setupRegistry', function() {
   });
 
   describe('with nested addons', function() {
-    var nestedSetupPreprocessorRegistryCalls;
+    let nestedSetupPreprocessorRegistryCalls;
 
     function setupPreprocessorRegistryShared(type, registry) {
       nestedSetupPreprocessorRegistryCalls.push([type, registry]);
@@ -53,7 +53,7 @@ describe('setupRegistry', function() {
       fakeAddon.addons = [
         { setupPreprocessorRegistry: setupPreprocessorRegistryShared },
         { setupPreprocessorRegistry: setupPreprocessorRegistryShared },
-        { setupPreprocessorRegistry: setupPreprocessorRegistryShared }
+        { setupPreprocessorRegistry: setupPreprocessorRegistryShared },
       ];
 
       p.setupRegistry(fakeAddon);
@@ -71,7 +71,7 @@ describe('setupRegistry', function() {
       fakeAddon.addons = [
         { setupPreprocessorRegistry: setupPreprocessorRegistryShared },
         { },
-        { }
+        { },
       ];
 
       p.setupRegistry(fakeAddon);

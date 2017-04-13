@@ -1,47 +1,47 @@
 'use strict';
 
-var expect       = require('chai').expect;
-var preprocessJs = require('../../../preprocessors').preprocessJs;
+const expect = require('chai').expect;
+const preprocessJs = require('../../../preprocessors').preprocessJs;
 
-var registry, plugins;
+let registry, plugins;
 
 describe('preprocessJs', function() {
   function generatePlugin(name, toTree) {
     return {
-      name: name,
-      toTree: toTree
+      name,
+      toTree,
     };
   }
 
   beforeEach(function() {
     registry = {
-      load: function() {
+      load() {
         return plugins;
-      }
+      },
     };
   });
 
   it('calls can call multiple plugins', function() {
-    var pluginsCalled = [];
-    var toTree = function() {
+    let pluginsCalled = [];
+    let toTree = function() {
       pluginsCalled.push(this.name);
     };
 
     plugins = [
       generatePlugin('foo', toTree),
-      generatePlugin('bar', toTree)
+      generatePlugin('bar', toTree),
     ];
 
     preprocessJs('app', '/', 'foo.js', {
-      registry: registry
+      registry,
     });
 
     expect(pluginsCalled).to.deep.equal(['foo', 'bar']);
   });
 
   it('passes the previously returned value into the next plugin', function() {
-    var treeValues = [];
-    var toTree = function(tree) {
+    let treeValues = [];
+    let toTree = function(tree) {
       treeValues.push(tree);
 
       return this.name;
@@ -49,11 +49,11 @@ describe('preprocessJs', function() {
 
     plugins = [
       generatePlugin('foo', toTree),
-      generatePlugin('bar', toTree)
+      generatePlugin('bar', toTree),
     ];
 
-    var output = preprocessJs('app', '/', 'foo.js', {
-      registry: registry
+    let output = preprocessJs('app', '/', 'foo.js', {
+      registry,
     });
 
     expect(treeValues).to.deep.equal(['app', 'foo']);
