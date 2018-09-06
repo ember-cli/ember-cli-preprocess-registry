@@ -1,6 +1,5 @@
 'use strict';
 
-var assign         = require('ember-cli-lodash-subset').assign;
 var expect         = require('chai').expect;
 var PluginRegistry = require('../../');
 
@@ -20,7 +19,7 @@ describe('Plugin Loader', function() {
     };
 
     app = { name: 'some-application-name' };
-    registry = new PluginRegistry(assign(pkg.devDependencies, pkg.dependencies), app);
+    registry = new PluginRegistry(Object.assign(pkg.devDependencies, pkg.dependencies), app);
     registry.add('css', 'fake-sass-1', ['scss', 'sass']);
     registry.add('css', 'fake-sass-2', ['scss', 'sass']);
   });
