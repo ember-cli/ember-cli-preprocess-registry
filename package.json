@@ -19,7 +19,7 @@
   "author": "ember-cli Contributors",
   "license": "MIT",
   "engines": {
-    "node": ">= 4"
+    "node": "6.* || 8.* || >= 10.*"
   },
   "bugs": {
     "url": "https://github.com/ember-cli/ember-cli-preprocessor-registry/issues"
