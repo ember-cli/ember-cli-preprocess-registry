@@ -32,7 +32,7 @@
     "silent-error": "^1.0.0"
   },
   "devDependencies": {
-    "chai": "^3.0.0",
+    "chai": "^4.2.0",
     "eslint-plugin-chai-expect": "^1.1.1",
     "mocha": "^3.0.1",
     "mocha-eslint": "^3.0.1"
