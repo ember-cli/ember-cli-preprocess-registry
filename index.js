@@ -31,7 +31,7 @@ Registry.prototype.extensionsForType = function(type) {
     return memo.concat(plugin.ext);
   }, [type]).filter(Boolean);
 
- extensions = [...new Set(extensions)];
+ extensions = Array.from(new Set(extensions));
 
   debug('extensions for type %s: %s', type, extensions);
 
