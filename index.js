@@ -12,15 +12,15 @@ class Registry {
     let registered = this.registeredForType(type);
 
     let extensions = registered
-        .reduce((memo, plugin) => memo.concat(plugin.ext), [type])
-        .filter(Boolean)
-        .reduce((memo, ext) => {
-          if (memo.indexOf(ext) === -1) {
-            memo.push(ext);
-          }
+      .reduce((memo, plugin) => memo.concat(plugin.ext), [type])
+      .filter(Boolean)
+      .reduce((memo, ext) => {
+        if (memo.indexOf(ext) === -1) {
+          memo.push(ext);
+        }
 
-          return memo;
-        }, []);
+        return memo;
+      }, []);
 
     debug('extensions for type %s: %s', type, extensions);
 

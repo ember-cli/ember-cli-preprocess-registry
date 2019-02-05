@@ -27,14 +27,12 @@
   "homepage": "https://github.com/ember-cli/ember-cli-preprocessor-registry#readme",
   "dependencies": {
     "broccoli-funnel": "^2.0.1",
-    "broccoli-merge-trees": "^3.0.2",
-    "debug": "^4.1.0",
-    "silent-error": "^1.0.0"
+    "debug": "^4.1.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint-plugin-chai-expect": "^2.0.1",
     "mocha": "^5.2.0",
-    "mocha-eslint": "^3.0.1"
+    "mocha-eslint": "^5.0.0"
   }
 }
