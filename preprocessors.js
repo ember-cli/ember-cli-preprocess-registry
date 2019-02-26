@@ -109,6 +109,9 @@ module.exports.preprocessMinifyCss = function(tree, options) {
 
   if (plugins.length === 0) {
     var CleanCSS = require('broccoli-clean-css');
+    if(options.rebase === undefined) {
+      options.rebase = false;
+    }
     return new CleanCSS(tree, options);
   } else if (plugins.length > 1) {
     throw new Error('You cannot use more than one minify-css plugin at once.');
