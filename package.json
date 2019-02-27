@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-preprocess-registry",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "Preprocessor registry used internally by ember-cli.",
   "main": "index.js",
   "scripts": {
