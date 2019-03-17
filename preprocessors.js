@@ -116,7 +116,15 @@ module.exports.preprocessMinifyCss = function(tree, options) {
 
   var plugin = plugins[0];
 
-  return relativeRequire(plugin.name).call(null, tree, options);
+  try {
+    return relativeRequire(plugin.name).call(null, tree, options);
+  } catch (error) {
+    if (error && error.code === 'MODULE_NOT_FOUND') {
+      return processPlugins(plugins, arguments);
+    }
+
+    throw error;
+  }
 };
 
 module.exports.preprocessCss = function(tree, inputPath, outputPath, options) {
