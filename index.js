@@ -3,9 +3,8 @@
 const debug = require('debug')('ember-cli:registry');
 
 class Registry {
-  constructor(app) {
-    this.registry = { };
-    this.app = app;
+  constructor() {
+    this.registry = {};
   }
 
   extensionsForType(type) {

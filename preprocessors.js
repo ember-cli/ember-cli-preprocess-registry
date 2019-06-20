@@ -51,10 +51,9 @@ module.exports.setupRegistry = function(appOrAddon) {
 
   @private
   @method defaultRegistry
-  @param app
 */
-module.exports.defaultRegistry = function(app) {
-  let registry = new Registry(app.dependencies(), app);
+module.exports.defaultRegistry = function() {
+  let registry = new Registry();
 
   return registry;
 };
