@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/ember-cli/ember-cli-preprocessor-registry#readme",
   "dependencies": {
-    "broccoli-funnel": "^2.0.2",
+    "broccoli-funnel": "^3.0.1",
     "debug": "^4.1.1"
   },
   "devDependencies": {
