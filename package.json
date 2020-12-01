@@ -27,7 +27,7 @@
   "homepage": "https://github.com/ember-cli/ember-cli-preprocessor-registry#readme",
   "dependencies": {
     "broccoli-funnel": "^2.0.2",
-    "debug": "^4.2.0"
+    "debug": "^4.3.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
