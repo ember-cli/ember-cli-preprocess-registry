@@ -2,37 +2,60 @@
   "name": "ember-cli-preprocess-registry",
   "version": "4.0.0",
   "description": "Preprocessor registry used internally by ember-cli.",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha tests/**/*",
-    "lint": "mocha tests/unit/lint-test.js"
+  "homepage": "https://github.com/ember-cli/ember-cli-preprocessor-registry#readme",
+  "bugs": {
+    "url": "https://github.com/ember-cli/ember-cli-preprocessor-registry/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ember-cli/ember-cli-preprocessor-registry.git"
+  },
+  "license": "MIT",
+  "author": "ember-cli Contributors",
+  "main": "index.js",
   "files": [
     "index.js",
     "preprocessors.js",
     "lib"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ember-cli/ember-cli-preprocessor-registry.git"
+  "scripts": {
+    "lint": "mocha tests/unit/lint-test.js",
+    "test": "mocha tests/**/*"
   },
-  "author": "ember-cli Contributors",
-  "license": "MIT",
-  "engines": {
-    "node": "16.* || >= 18"
-  },
-  "bugs": {
-    "url": "https://github.com/ember-cli/ember-cli-preprocessor-registry/issues"
-  },
-  "homepage": "https://github.com/ember-cli/ember-cli-preprocessor-registry#readme",
   "dependencies": {
     "broccoli-funnel": "^3.0.8",
     "debug": "^4.3.2"
   },
   "devDependencies": {
+    "@release-it-plugins/lerna-changelog": "^5.0.0",
     "chai": "^4.3.4",
     "eslint-plugin-chai-expect": "^2.0.1",
     "mocha": "^6.2.2",
-    "mocha-eslint": "^5.0.0"
+    "mocha-eslint": "^5.0.0",
+    "release-it": "^15.5.0"
+  },
+  "engines": {
+    "node": "16.* || >= 18"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "release-it": {
+    "plugins": {
+      "@release-it-plugins/lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    },
+    "npm": {
+      "publish": false
+    }
   }
 }
