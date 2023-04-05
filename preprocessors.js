@@ -99,9 +99,9 @@ module.exports.preprocessCss = function(tree, inputPath, outputPath, options) {
   let plugins = options.registry.load('css');
 
   if (plugins.length === 0) {
-    const Funnel = require('broccoli-funnel');
+    const funnel = require('broccoli-funnel');
 
-    return new Funnel(tree, {
+    return funnel(tree, {
       srcDir: inputPath,
 
       getDestinationPath(relativePath) {
