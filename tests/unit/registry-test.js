@@ -82,7 +82,7 @@ describe('Plugin Loader', function() {
     });
 
     it('will removed non defined extensions from list', function() {
-      registry.add('css', 'broccoli-foo');
+      registry.add('css', { name: 'broccoli-foo' });
       let extensions = registry.extensionsForType('css');
 
       expect(extensions).to.deep.equal(['css', 'scss', 'sass']);
@@ -109,6 +109,14 @@ describe('Plugin Loader', function() {
     let plugins = registry.load('css');
     expect(plugins.length).to.equal(1);
     expect(plugins[0]).to.equal(fakeSass2);
+  });
+
+  it('allows removal of a specified plugin by name', function() {
+    registry.remove('css', 'fake-sass-2');
+
+    let plugins = registry.load('css');
+    expect(plugins.length).to.equal(1);
+    expect(plugins[0]).to.equal(fakeSass1);
   });
 
   it('allows removal of plugin added as instantiated objects', function() {
@@ -144,7 +152,7 @@ describe('Plugin Loader', function() {
 
     expect(plugins).to.deep.eql([blah, blammo]);
 
-    registry.remove('foo', blah);
+    registry.remove('foo', 'blah-zorz');
     plugins = registry.load('foo');
 
     expect(plugins).to.eql([blammo]);

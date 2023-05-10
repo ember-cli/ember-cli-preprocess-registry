@@ -46,13 +46,23 @@ class Registry {
     registered.push(plugin);
   }
 
-  remove(type, plugin) {
+  remove(type, pluginOrName) {
     let registered = this.registeredForType(type);
-    let name = plugin.name;
+    let name, registeredIndex;
+
+    if (typeof pluginOrName === 'object') {
+      name = pluginOrName.name;
+      registeredIndex = registered.indexOf(pluginOrName);
+    } else {
+      name = pluginOrName;
+      for (let i = 0, l = registered.length; i < l; i++) {
+        if (registered[i].name === name) {
+          registeredIndex = i;
+        }
+      }
+    }
 
     debug('remove type: %s, name: %s', type, name);
-
-    let registeredIndex = registered.indexOf(plugin);
 
     if (registeredIndex > -1) {
       registered.splice(registeredIndex, 1);
