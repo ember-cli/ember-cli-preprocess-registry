@@ -1,4 +1,14 @@
 
+
+## v5.0.1 (2023-05-11)
+
+#### :bug: Bug Fix
+* [#118](https://github.com/ember-cli/ember-cli-preprocess-registry/pull/118) Restore removing of plugins by name. This is extensively used by embroider and the addon ecosystem. ([@kategengler](https://github.com/kategengler))
+
+#### Committers: 1
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+
+
 ## v5.0.0 (2023-04-05)
 
 #### :boom: Breaking Change
